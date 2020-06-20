@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
 const LandingPage = () => {
-  const { loginWithRedirect, logout } = useAuth0();
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <Container fluid="md" className="p-3">

@@ -1,15 +1,13 @@
 // src/components/NavBar.js
 
 import React from "react";
-import { useAuth0 } from "../react-auth0-spa";
 
 import { Container, Row, Col } from "react-bootstrap";
 
 import TopBar from "./TopBar";
+import Menu from "./Menu";
 
 const ChatWindow = () => {
-  const { logout } = useAuth0();
-
   return (
     <>
       <TopBar />
@@ -29,7 +27,9 @@ const ChatWindow = () => {
         <NavBar />
       </header> */}
         <Row>
-          <Col>1 of 3</Col>
+          <Col>
+            <Menu />
+          </Col>
           <Col xs={6}>2 of 3 (wider)</Col>
           <Col>3 of 3</Col>
         </Row>
