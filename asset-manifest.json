@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Quell-HackJaipur/static/css/main.5f361e03.chunk.css",
+    "main.js": "/Quell-HackJaipur/static/js/main.4f3b8e2c.chunk.js",
+    "main.js.map": "/Quell-HackJaipur/static/js/main.4f3b8e2c.chunk.js.map",
+    "runtime-main.js": "/Quell-HackJaipur/static/js/runtime-main.1ad064ba.js",
+    "runtime-main.js.map": "/Quell-HackJaipur/static/js/runtime-main.1ad064ba.js.map",
+    "static/js/2.9d31e21e.chunk.js": "/Quell-HackJaipur/static/js/2.9d31e21e.chunk.js",
+    "static/js/2.9d31e21e.chunk.js.map": "/Quell-HackJaipur/static/js/2.9d31e21e.chunk.js.map",
+    "index.html": "/Quell-HackJaipur/index.html",
+    "precache-manifest.c7bd6d7d80292fe5e80b0c1cef48da11.js": "/Quell-HackJaipur/precache-manifest.c7bd6d7d80292fe5e80b0c1cef48da11.js",
+    "service-worker.js": "/Quell-HackJaipur/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/Quell-HackJaipur/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.9d31e21e.chunk.js.LICENSE.txt": "/Quell-HackJaipur/static/js/2.9d31e21e.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/Quell-HackJaipur/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1ad064ba.js",
+    "static/js/2.9d31e21e.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.4f3b8e2c.chunk.js"
+  ]
+}
