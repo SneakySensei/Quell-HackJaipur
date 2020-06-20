@@ -6,24 +6,10 @@ import LandingPage from "./components/LandingPage";
 import ChatWindow from "./components/ChatWindow";
 
 function App() {
-  const [response, setResponse] = useState("");
   const [auth, setAuth] = useState(false);
 
-  const { loading, user, getTokenSilently, isAuthenticated } = useAuth0();
-  const callApi = (event) => {
-    getTokenSilently()
-      .then((token) => {
-        fetch("http://localhost:3001/users", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
-          .then((res) => res.text())
-          .then((text) => setResponse(text))
-          .catch((e) => setResponse("API Failure"));
-      })
-      .catch((e) => setResponse("Token failure"));
-  };
+  const { loading, user, isAuthenticated } = useAuth0();
+
   if (user && !auth) {
     setAuth(true);
   }

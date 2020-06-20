@@ -1,6 +1,7 @@
 // src/components/NavBar.js
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useAuth0 } from "../react-auth0-spa";
 
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -8,6 +9,38 @@ import TopBar from "./TopBar";
 import Menu from "./Menu";
 
 const ChatWindow = () => {
+  const { getTokenSilently } = useAuth0();
+  const [response, setResponse] = useState("");
+
+  const authenticate = (event) => {
+    getTokenSilently()
+      .then((token) => {
+        fetch("http://localhost:3001/users/authenticate", {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
+          .then((res) => res.text())
+          .then((text) => setResponse(text))
+          .catch((e) => setResponse("API Failure"));
+      })
+      .catch((e) => setResponse("Token failure"));
+  };
+
+  useEffect(() => {
+    authenticate();
+  }, []);
+
+  if (response === "") {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h1>Please wait...</h1>
+        </header>
+      </div>
+    );
+  }
+
   return (
     <>
       <TopBar />
