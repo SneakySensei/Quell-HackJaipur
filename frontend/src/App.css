@@ -182,8 +182,6 @@
 
 .message.active {
   background-color: #8ed1cd;
-  position: absolute;
-  right: 0px;
 }
 
 .message-name {
