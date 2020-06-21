@@ -3,32 +3,23 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import UserProfile from "./UserProfile";
-
-const Menu = (props) => {
+const Members = (props) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  console.log(props.authData);
 
   return (
     <>
-      <div className="menu-container">
-        <div
-          className={`button`}
-          onClick={() =>
-            window.open(
-              "https://github.com/sneakysensei/Quell-HackJaipur",
-              "_blank"
-            )
-          }
-        >
-          Github Repo
-        </div>
+      <div className="members-container">
+        {/* {props.authData.group.members.map((member, index) => (
+          <div className="member">{member}</div>
+        ))} */}
+
         <div className={`button`} onClick={handleShow}>
           Get Help
         </div>
-        <UserProfile userName={props.userName} />
       </div>
 
       <Modal show={show} onHide={handleClose}>
@@ -49,4 +40,4 @@ const Menu = (props) => {
   );
 };
 
-export default Menu;
+export default Members;

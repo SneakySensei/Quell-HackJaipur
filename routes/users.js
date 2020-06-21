@@ -13,7 +13,16 @@ mongoose.connect(
   }
 );
 
-var Message = mongoose.model("Message", { name: String, message: String });
+var Users = mongoose.model(
+  "Users",
+  { _id: String, group: String, data: Object },
+  "users"
+);
+var Groups = mongoose.model(
+  "Groups",
+  { _id: String, members: Array },
+  "groups"
+);
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -22,11 +31,90 @@ router.get("/", function (req, res, next) {
 
 // Define an endpoint that must be called with an access token
 router.get("/authenticate", (req, res) => {
-  console.log(req.user.sub);
-  res.json({
-    response: "Authenticated!",
-    user: req,
+  Users.findById(req.user.sub, (err, user) => {
+    var type, data, groupInfo;
+    if (user === null) {
+      type = "signup";
+      group = "";
+      data = {};
+      groupInfo = {};
+    } else {
+      type = "login";
+      data = user.data;
+      Groups.findById(user.group, (err, group) => {
+        console.log(group);
+        groupInfo = group;
+      }).then(() => {
+        res.json({
+          type: type,
+          groupInfo: groupInfo,
+          data: data,
+        });
+      });
+    }
   });
 });
 
-module.exports = router;
+router.post("/signup", (req, res) => {
+  if (req.body.userType === "therapist") {
+    var group = new Groups({
+      _id: req.user.sub,
+      members: [
+        {
+          name: req.body.name,
+          type: req.body.userType,
+          condition: req.body.condition,
+        },
+      ],
+    });
+
+    group.save((err, doc) => {
+      var user = new Users({
+        _id: req.user.sub,
+        group: doc._id,
+        data: {
+          name: req.body.name,
+          type: req.body.userType,
+          condition: req.body.condition,
+        },
+      });
+
+      user.save((err, docs) => {
+        res.sendStatus(200);
+      });
+    });
+  } else {
+    Groups.find({}, (err, groups) => {});
+
+    Groups.findOneAndUpdate(
+      { "members.4": { $exists: false } },
+      {
+        $push: {
+          members: {
+            name: req.body.name,
+            type: req.body.userType,
+            condition: req.body.condition,
+          },
+        },
+      },
+      { new: true },
+      function (err, doc) {
+        var user = new Users({
+          _id: req.user.sub,
+          group: doc._id,
+          data: {
+            name: req.body.name,
+            type: req.body.userType,
+            condition: req.body.condition,
+          },
+        });
+
+        user.save((err, docs) => {
+          res.sendStatus(200);
+        });
+      }
+    );
+  }
+});
+
+http: module.exports = router;

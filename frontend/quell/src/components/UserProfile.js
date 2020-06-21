@@ -10,7 +10,7 @@ const UserProfile = (props) => {
   return (
     <>
       <div className="menu-container">
-        <div>{user.nickname}</div>
+        <div>{props.userName}</div>
         <div>{user.name}</div>
         <Button onClick={logout}>Log Out</Button>
       </div>

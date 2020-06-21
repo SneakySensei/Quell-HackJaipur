@@ -7,68 +7,73 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import TopBar from "./TopBar";
 import Menu from "./Menu";
+import SignUpForm from "./SignUpForm";
+import Members from "./Members";
 
 const ChatWindow = () => {
   const { getTokenSilently } = useAuth0();
-  const [response, setResponse] = useState("");
+  const [auth, setAuth] = useState({});
+
+  const [authData, setAuthData] = useState({});
 
   const authenticate = (event) => {
-    getTokenSilently()
-      .then((token) => {
-        fetch("http://localhost:3001/users/authenticate", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
-          .then((res) => res.text())
-          .then((text) => setResponse(text))
-          .catch((e) => setResponse("API Failure"));
+    getTokenSilently().then((token) => {
+      fetch("http://localhost:3001/users/authenticate", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       })
-      .catch((e) => setResponse("Token failure"));
+        .then((res) => {
+          setAuth(res);
+          return res.json();
+        })
+        .then((res) => setAuthData(res));
+    });
   };
 
   useEffect(() => {
     authenticate();
   }, []);
 
-  if (response === "") {
+  // if (auth === {}) {
+  //   return (
+  //     <div className="App">
+  //       <header className="App-header">
+  //         <h1>Please wait...</h1>
+  //       </header>
+  //     </div>
+  //   );
+  // }
+  console.log(authData);
+  if (authData.type === "signup") {
+    return <SignUpForm />;
+  } else if (authData.type === "login") {
+    return (
+      <>
+        <TopBar />
+        <Container fluid className="chat-container">
+          <Row>
+            <Col>
+              <Menu userName={authData.data.name} />
+            </Col>
+            <Col xs={6}>2 of 3 (wider)</Col>
+            <Col>
+              <Members authData={authData} />
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
+  } else {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>Please wait...</h1>
+          {!auth && <h1>Please wait...</h1>}
+          {authData && <h2>Logging In...</h2>}
         </header>
       </div>
     );
   }
-
-  return (
-    <>
-      <TopBar />
-      <Container fluid className="chat-container">
-        {/* <header className="App-header">
-        {!loading && user && (
-          <>
-            <h1>{user.given_name}</h1>
-            <h1>{user.nickname}</h1>
-            <h1>{user.name}</h1>
-          </>
-        )}
-
-        <button onClick={callApi}>Call API</button>
-        <button onClick={loginWithRedirect}>Login with redirect</button>
-        <p>API response: {response}</p>
-        <NavBar />
-      </header> */}
-        <Row>
-          <Col>
-            <Menu />
-          </Col>
-          <Col xs={6}>2 of 3 (wider)</Col>
-          <Col>3 of 3</Col>
-        </Row>
-      </Container>
-    </>
-  );
 };
 
 export default ChatWindow;
