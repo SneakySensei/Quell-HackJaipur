@@ -13,9 +13,6 @@ var usersRouter = require("./routes/users");
 
 var app = express();
 
-var http = require("http").Server(app);
-var io = require("socket.io")(http);
-
 var mongoose = require("mongoose");
 var dbUrl =
   "mongodb+srv://snehil:alienforce@cluster0-wx1mo.mongodb.net/quell?retryWrites=true&w=majority";
@@ -29,7 +26,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+const whitelist = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://example2.com",
+];
+
 app.use(cors()); // Accept cross-origin requests from the frontend app
+
+var http = require("http").Server(app);
+var io = require("socket.io")(http, { origins: "*:*" });
 
 // Set up Auth0 configuration
 const authConfig = {
@@ -71,10 +78,6 @@ var Messages = mongoose.model(
   "messages"
 );
 
-io.on("connection", (socket) => {
-  console.log("New Client Connected: " + socket);
-});
-
 app.get("/messages", function (req, res) {
   const group = decodeURIComponent(req.query.id);
   Messages.find({ groupid: group }, (err, messages) => {
@@ -96,6 +99,11 @@ app.post("/messages", function (req, res) {
     io.emit("message", doc);
     res.sendStatus(200);
   });
+});
+
+io.on("connection", (socket) => {
+  io.on(socket.id).emit("Debug", "Success");
+  console.log("New Client Connected: " + socket);
 });
 
 // catch 404 and forward to error handler

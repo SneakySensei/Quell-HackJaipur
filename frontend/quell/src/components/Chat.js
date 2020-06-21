@@ -1,33 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth0 } from "../react-auth0-spa";
+import io from "socket.io-client";
 
 import FreeScrollBar from "react-free-scrollbar";
 import { TextField } from "@material-ui/core";
 import { Button } from "react-bootstrap";
 
-const msg = [
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-  "Hello",
-];
+var socket;
 
 const Chat = (props) => {
   const ref = useRef();
@@ -37,6 +16,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     getTokenSilently().then((token) => {
+      socket = io.connect("http://localhost:3001");
       fetch(
         `http://localhost:3001/messages/?id=${props.authData.groupInfo._id}`,
         {
