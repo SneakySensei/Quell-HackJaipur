@@ -38,6 +38,11 @@ router.get("/authenticate", (req, res) => {
       group = "";
       data = {};
       groupInfo = {};
+      res.json({
+        type: type,
+        groupInfo: groupInfo,
+        data: data,
+      });
     } else {
       type = "login";
       data = user.data;
