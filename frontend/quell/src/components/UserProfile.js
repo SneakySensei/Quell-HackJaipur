@@ -9,8 +9,8 @@ const UserProfile = (props) => {
 
   return (
     <div className="profile">
-      <div>{props.userName}</div>
-      <div>{user.name}</div>
+      <div className="profile-name">{props.userName}</div>
+      <div className="profile-email">{user.name}</div>
       <Button onClick={logout}>Log Out</Button>
     </div>
   );

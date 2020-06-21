@@ -20,23 +20,19 @@ var dbUrl =
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
-
+app.use(cors()); // Accept cross-origin requests from the frontend app
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-const whitelist = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://example2.com",
-];
-
-app.use(cors()); // Accept cross-origin requests from the frontend app
-
-var http = require("http").Server(app);
-var io = require("socket.io")(http, { origins: "*:*" });
+// var http = require("http").Server(app);
+var http = app.listen(process.env.PORT || 3001, (err) => {
+  if (err) console.error(err);
+  else console.log("Server listen on port 3001");
+});
+var io = require("socket.io")(http);
 
 // Set up Auth0 configuration
 const authConfig = {
@@ -102,7 +98,6 @@ app.post("/messages", function (req, res) {
 });
 
 io.on("connection", (socket) => {
-  io.on(socket.id).emit("Debug", "Success");
   console.log("New Client Connected: " + socket);
 });
 
@@ -121,5 +116,3 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-module.exports = app;

@@ -47,8 +47,8 @@ const Chat = (props) => {
           {messages.map((message) => {
             return (
               <div className="message">
-                <div>{message.name}</div>
-                <div>{message.text}</div>
+                <div className="message-name">{message.name}</div>
+                <div className="message-text">{message.text}</div>
               </div>
             );
           })}

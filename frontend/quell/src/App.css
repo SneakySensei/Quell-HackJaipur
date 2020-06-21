@@ -45,6 +45,7 @@
 .header {
   text-align: center;
   font-family: "Pacifico", cursive;
+  font-size: 40pt;
 }
 
 .topbar {
@@ -61,20 +62,76 @@
   color: #faf7f2;
 }
 
+.members-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  background-color: #fcf5eb;
+}
+
+.member-heading {
+  border-radius: 0.25em;
+  font-size: x-large;
+  text-align: center;
+  font-weight: bold;
+  background-color: #55c2bb;
+  color: white;
+}
+
+.member {
+  background-color: #ebcae8;
+  padding: 10px;
+  padding-left: 2em;
+  margin: 10px;
+  border-radius: 0.5em;
+  text-align: center;
+}
+
+.active {
+  background-color: #a2e0c1;
+}
+
+.member-name {
+  font-size: large;
+  font-weight: bold;
+  text-align: left;
+}
+
+.member-condition {
+  padding-left: 0.5em;
+  font-size: medium;
+  text-align: left;
+}
+
 .menu-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: space-evenly;
+  /* align-items: center; */
   height: 100%;
+  background-color: #fcf5eb;
 }
 
-.menu-container > .button {
-  flex: 1;
+.button-group {
+  height: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 0em 1em;
 }
 
-.menu-container > .profile {
-  flex: 2;
-  align-items: center;
+.profile {
+  height: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+  padding: 0em 1em;
+}
+
+.profile-name {
+  font-weight: bold;
 }
 
 .chat-container {
@@ -94,6 +151,7 @@
 .chat {
   width: 100%;
   flex: 1;
+  background-color: #faf0e3;
 }
 
 .chat-inbox {
@@ -101,4 +159,21 @@
 }
 .input {
   flex: 1;
+}
+
+.message {
+  background-color: #fed58c;
+  border-radius: 1em;
+  padding: 0.5em 1em;
+  margin: 10px;
+  width: fit-content;
+}
+
+.message-name {
+  font-size: small;
+  font-weight: bold;
+}
+.message-text {
+  font-size: medium;
+  padding-left: 0.2em;
 }

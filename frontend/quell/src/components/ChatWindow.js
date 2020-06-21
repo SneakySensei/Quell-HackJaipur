@@ -54,15 +54,15 @@ const ChatWindow = () => {
         <TopBar />
         <Container fluid className="chat-container">
           <Row>
-            <Col>
+            <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
               <Menu userName={authData.data.name} />
             </Col>
-            <Col xs={6}>
+            <Col style={{ paddingLeft: 0, paddingRight: 0 }} xs={6}>
               <div className="chat-container">
                 <Chat authData={authData} />
               </div>
             </Col>
-            <Col>
+            <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
               {authData.type === "login" && <Members authData={authData} />}
             </Col>
           </Row>
