@@ -71,7 +71,8 @@
 }
 
 .member-heading {
-  border-radius: 0.25em;
+  border-radius: 0 0 0.5em 0.5em;
+  padding: 0.5em 0;
   font-size: x-large;
   text-align: center;
   font-weight: bold;
@@ -80,16 +81,21 @@
 }
 
 .member {
-  background-color: #ebcae8;
+  background-color: #80d2f2;
   padding: 10px;
   padding-left: 2em;
   margin: 10px;
   border-radius: 0.5em;
   text-align: center;
+  cursor: default;
 }
 
-.active {
-  background-color: #a2e0c1;
+.member.active {
+  background-color: #ebcae8;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #d7a5d2;
+  border-width: 5px;
 }
 
 .member-name {
@@ -122,12 +128,17 @@
 }
 
 .profile {
-  height: 25%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   text-align: center;
   padding: 0em 1em;
+}
+
+.profile-pic {
+  max-width: 150px;
+  align-self: center;
 }
 
 .profile-name {
@@ -149,7 +160,7 @@
 }
 
 .chat {
-  width: 100%;
+  align-self: stretch;
   flex: 1;
   background-color: #faf0e3;
 }
@@ -167,6 +178,12 @@
   padding: 0.5em 1em;
   margin: 10px;
   width: fit-content;
+}
+
+.message.active {
+  background-color: #8ed1cd;
+  position: absolute;
+  right: 0px;
 }
 
 .message-name {

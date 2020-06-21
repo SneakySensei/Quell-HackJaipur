@@ -35,7 +35,6 @@ router.get("/authenticate", (req, res) => {
     var type, data, groupInfo;
     if (user === null) {
       type = "signup";
-      group = "";
       data = {};
       groupInfo = {};
       res.json({

@@ -24,10 +24,7 @@ const ChatWindow = () => {
           Authorization: "Bearer " + token,
         },
       })
-        .then((res) => {
-          setAuth(res);
-          return res.json();
-        })
+        .then((res) => res.json())
         .then((res) => setAuthData(res));
     });
   };

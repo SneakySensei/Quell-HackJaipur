@@ -43,10 +43,12 @@ const Chat = (props) => {
   return (
     <>
       <div className="chat">
-        <FreeScrollBar ref={ref}>
+        <FreeScrollBar autohide start="bottom" ref={ref}>
           {messages.map((message) => {
+            var active =
+              message.name === props.authData.data.name ? " active" : "";
             return (
-              <div className="message">
+              <div className={`message${active}`}>
                 <div className="message-name">{message.name}</div>
                 <div className="message-text">{message.text}</div>
               </div>
@@ -80,7 +82,11 @@ const Chat = (props) => {
                     text: text,
                   }),
                 };
-                fetch("http://localhost:3001/messages", requestOptions).then();
+                fetch("http://localhost:3001/messages", requestOptions).then(
+                  () => {
+                    setText("");
+                  }
+                );
               });
             }
           }}
