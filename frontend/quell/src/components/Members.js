@@ -1,7 +1,6 @@
 // src/components/NavBar.js
 
-import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import React from "react";
 
 const Members = (props) => {
   console.log(props.authData);

@@ -13,6 +13,13 @@ var usersRouter = require("./routes/users");
 
 var app = express();
 
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
+
+var mongoose = require("mongoose");
+var dbUrl =
+  "mongodb+srv://snehil:alienforce@cluster0-wx1mo.mongodb.net/quell?retryWrites=true&w=majority";
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -49,6 +56,47 @@ app.use(checkJwt);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+
+mongoose.connect(
+  dbUrl,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  (err) => {
+    console.log("mongodb connected", err);
+  }
+);
+
+var Messages = mongoose.model(
+  "Messages",
+  { groupid: String, name: String, text: String },
+  "messages"
+);
+
+io.on("connection", (socket) => {
+  console.log("New Client Connected: " + socket);
+});
+
+app.get("/messages", function (req, res) {
+  const group = decodeURIComponent(req.query.id);
+  Messages.find({ groupid: group }, (err, messages) => {
+    res.json({ messages: messages });
+  });
+});
+
+app.post("/messages", function (req, res) {
+  //add to db
+  //emit db results to all
+  var message = new Messages({
+    groupid: req.body.groupid,
+    name: req.body.name,
+    text: req.body.text,
+  });
+  message.save((err, doc) => {
+    if (err) sendStatus(500);
+    console.log(doc);
+    io.emit("message", doc);
+    res.sendStatus(200);
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

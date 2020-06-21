@@ -15,7 +15,7 @@ const Menu = (props) => {
     <>
       <div className="menu-container">
         <div
-          className={`button`}
+          className="button"
           onClick={() =>
             window.open(
               "https://github.com/sneakysensei/Quell-HackJaipur",
@@ -25,7 +25,7 @@ const Menu = (props) => {
         >
           Github Repo
         </div>
-        <div className={`button`} onClick={handleShow}>
+        <div className="button" onClick={handleShow}>
           Get Help
         </div>
         <UserProfile userName={props.userName} />

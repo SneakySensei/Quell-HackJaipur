@@ -9,6 +9,7 @@ import TopBar from "./TopBar";
 import Menu from "./Menu";
 import SignUpForm from "./SignUpForm";
 import Members from "./Members";
+import Chat from "./Chat";
 
 const ChatWindow = () => {
   const { getTokenSilently } = useAuth0();
@@ -56,7 +57,11 @@ const ChatWindow = () => {
             <Col>
               <Menu userName={authData.data.name} />
             </Col>
-            <Col xs={6}>2 of 3 (wider)</Col>
+            <Col xs={6}>
+              <div className="chat-container">
+                <Chat authData={authData} />
+              </div>
+            </Col>
             <Col>
               <Members authData={authData} />
             </Col>

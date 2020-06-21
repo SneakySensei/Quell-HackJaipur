@@ -47,7 +47,6 @@ router.get("/authenticate", (req, res) => {
       type = "login";
       data = user.data;
       Groups.findById(user.group, (err, group) => {
-        console.log(group);
         groupInfo = group;
       }).then(() => {
         res.json({
