@@ -9,13 +9,13 @@ app = Flask(__name__)
 @app.route("/", methods=['POST', 'GET'])
 def sentimentAnalysis():
 	req_data = request.get_json(force=True)
-	message = req_data['messages'][0]
+	messages = req_data['messages']
+	final = ' '.join(messages)
 	classifier = TextClassifier.load('en-sentiment')
-	inputQuery = message
-	sentence = Sentence(inputQuery)
+	sentence = Sentence(final)
 	classifier.predict(sentence)
 	print('Sentiment: ', sentence.labels)
 	label = sentence.labels[0]
 	labscore = (label.score)*100
-	response = {'result': label.value, 'score': "%.2f" % labscore}
+	response = {'result': label.value, 'score': "%.2f" % labscore, 'sen': final}
 	return jsonify(response)
