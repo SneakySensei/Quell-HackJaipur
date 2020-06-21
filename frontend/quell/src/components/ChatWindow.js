@@ -63,7 +63,7 @@ const ChatWindow = () => {
               </div>
             </Col>
             <Col>
-              <Members authData={authData} />
+              {authData.type === "login" && <Members authData={authData} />}
             </Col>
           </Row>
         </Container>
