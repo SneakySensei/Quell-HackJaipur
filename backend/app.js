@@ -8,36 +8,38 @@ const cors = require("cors");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-
 var app = express();
 
-var mongoose = require("mongoose");
-var dbUrl =
-  "mongodb+srv://snehil:alienforce@cluster0-wx1mo.mongodb.net/quell?retryWrites=true&w=majority";
-
-// view engine setup
+app.use(cors()); // Accept cross-origin requests from the frontend app
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
-app.use(cors()); // Accept cross-origin requests from the frontend app
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "build")));
 
 // var http = require("http").Server(app);
-var http = app.listen(process.env.PORT || 3001, (err) => {
+var http = app.listen(process.env.PORT || 3000, (err) => {
   if (err) console.error(err);
-  else console.log("Server listen on port 3001");
+  else console.log("Server listen on port 3000");
 });
+
 var io = require("socket.io")(http);
+
+var indexRouter = require("./routes/index")(io);
+var usersRouter = require("./routes/users");
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+app.use("/", indexRouter);
 
 // Set up Auth0 configuration
 const authConfig = {
   domain: "sneakysensei.us.auth0.com",
-  audience: "http://localhost:3001",
+  audience: "http://localhost:3000",
 };
 
 // Define middleware that validates incoming bearer tokens
@@ -56,50 +58,7 @@ const checkJwt = jwt({
 });
 
 app.use(checkJwt);
-
-app.use("/", indexRouter);
 app.use("/users", usersRouter);
-
-mongoose.connect(
-  dbUrl,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  (err) => {
-    console.log("mongodb connected", err);
-  }
-);
-
-var Messages = mongoose.model(
-  "Messages",
-  { groupid: String, name: String, text: String },
-  "messages"
-);
-
-app.get("/messages", function (req, res) {
-  const group = decodeURIComponent(req.query.id);
-  Messages.find({ groupid: group }, (err, messages) => {
-    res.json({ messages: messages });
-  });
-});
-
-app.post("/messages", function (req, res) {
-  //add to db
-  //emit db results to all
-  var message = new Messages({
-    groupid: req.body.groupid,
-    name: req.body.name,
-    text: req.body.text,
-  });
-  message.save((err, doc) => {
-    if (err) sendStatus(500);
-    console.log(doc);
-    io.emit("message", doc);
-    res.sendStatus(200);
-  });
-});
-
-io.on("connection", (socket) => {
-  console.log("New Client Connected: " + socket);
-});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

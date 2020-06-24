@@ -3,7 +3,9 @@ var router = express.Router();
 
 var mongoose = require("mongoose");
 var dbUrl =
-  "mongodb+srv://snehil:alienforce@cluster0-wx1mo.mongodb.net/quell?retryWrites=true&w=majority";
+  "mongodb+srv://snehil:" +
+  process.env.DB_PASS +
+  "@cluster0-wx1mo.mongodb.net/quell?retryWrites=true&w=majority";
 
 mongoose.connect(
   dbUrl,
