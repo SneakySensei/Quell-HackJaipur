@@ -6,7 +6,7 @@ import { TextField } from "@material-ui/core";
 import { Button } from "react-bootstrap";
 
 const io = require("socket.io-client");
-const socket = io("http://localhost:3001");
+const socket = io();
 
 const Chat = (props) => {
   const ref = useRef();
@@ -16,14 +16,11 @@ const Chat = (props) => {
 
   useEffect(() => {
     getTokenSilently().then((token) => {
-      fetch(
-        `http://localhost:3001/messages/?id=${props.authData.groupInfo._id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      fetch(`/messages/?id=${props.authData.groupInfo._id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
         .then((res) => {
           return res.json();
         })
@@ -82,11 +79,9 @@ const Chat = (props) => {
                     text: text,
                   }),
                 };
-                fetch("http://localhost:3001/messages", requestOptions).then(
-                  () => {
-                    setText("");
-                  }
-                );
+                fetch("/messages", requestOptions).then(() => {
+                  setText("");
+                });
               });
             }
           }}

@@ -13,13 +13,12 @@ import Chat from "./Chat";
 
 const ChatWindow = () => {
   const { getTokenSilently } = useAuth0();
-  const [auth, setAuth] = useState({});
 
   const [authData, setAuthData] = useState({});
 
   const authenticate = (event) => {
     getTokenSilently().then((token) => {
-      fetch("http://localhost:3001/users/authenticate", {
+      fetch("/users/authenticate", {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -60,7 +59,7 @@ const ChatWindow = () => {
               </div>
             </Col>
             <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
-              {authData.type === "login" && <Members authData={authData} />}
+              <Members authData={authData} />
             </Col>
           </Row>
         </Container>
@@ -70,7 +69,6 @@ const ChatWindow = () => {
     return (
       <div className="App">
         <header className="App-header">
-          {!auth && <h1>Please wait...</h1>}
           {authData && <h2>Logging In...</h2>}
         </header>
       </div>

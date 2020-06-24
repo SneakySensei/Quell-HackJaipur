@@ -177,7 +177,7 @@ export default function SignUpForm(props) {
           condition: userType === "user" ? condition : "",
         }),
       };
-      fetch("http://localhost:3001/users/signup", requestOptions).then(() => {
+      fetch("/users/signup", requestOptions).then(() => {
         window.location.reload();
       });
     });
