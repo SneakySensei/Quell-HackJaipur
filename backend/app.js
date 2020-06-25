@@ -39,7 +39,7 @@ app.use("/", indexRouter);
 // Set up Auth0 configuration
 const authConfig = {
   domain: "sneakysensei.us.auth0.com",
-  audience: "http://localhost:3000",
+  audience: "https://quellchat.herokuapp.com/",
 };
 
 // Define middleware that validates incoming bearer tokens
